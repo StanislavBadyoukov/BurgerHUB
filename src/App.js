@@ -1,19 +1,44 @@
 import React, { Component } from 'react';
 import './App.css';
-import Layout from './components/Layout/Layout';
-import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
+import Table from './Table';
+import Form from './Form';
+
+
 
 class App extends Component {
-  render() {
-    return (
-      <div>
-        <Layout>
-          <BurgerBuilder />
-        </Layout>
+    state = {
+        characters: []
+    };
 
-      </div>
-    );
-  }
+    removeCharacter = index => {
+        const { characters } = this.state;
+
+        this.setState({
+            characters: characters.filter((character, i) => {
+                return i !== index;
+            })
+        });
+    }
+
+    handleSubmit = character => {
+        this.setState({ characters: [...this.state.characters, character] });
+    }
+
+    render() {
+        const { characters } = this.state;
+        return (
+            
+            <div className="container">
+                <Form handleSubmit={this.handleSubmit} />
+                <br></br>
+                <Table
+                    characterData={characters}
+                    removeCharacter={this.removeCharacter}
+                />
+            </div>
+        );
+    }
 }
+
 
 export default App;
